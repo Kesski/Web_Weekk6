@@ -46,27 +46,29 @@ var secondBridgeIcon = L.icon({
 
 //track the span - same as tracking the currency exchange rate value
 //track which bridge has that span - same way as you tracked the currency code
-let longestBridge
+let longestBridgeObject
 let longestBridgeSpan = 0
 
-bridges.forEach(function(spanOfBridge) { // loop over each bridge in turn
-    if (spanOfBridge.span > longestBridgeSpan) { // if span is longer than any others we've seen so far
-        longestBridge = bridge // save this bridge in longestBridge variable
-        longestBridgeSpan = spanOfBridge.span // save the bridge's span in longestBridgeSpan variable for future comparisons
+bridges.forEach(function(longerBridge) { // loop over each bridge in turn
+    if (longerBridge.span > longestBridgeSpan) { // if span is longer than any others we've seen so far
+        longestBridgeSpan = longerBridge.span  // save this bridge in longestBridge variable
+        longestBridgeObject = longerBridge  // save the bridge's span in longerBridge variable for future comparisons
     }
 })
-console.log("Longest bridge", longestBridge)
+console.log("Longest bridge", longestBridgeSpan)
 
 
 bridges.forEach(function(oneBridge){
     // if statement - is this the longest bridge? Draw special marker
     // else, draw marker
-    if(oneBridge.span > longestBridge) {
+    if(oneBridge.span == longestBridgeSpan) {
         let markerText = `<b>${oneBridge.name}</b><br>${oneBridge.span}` // adds the bridge name and span to each icon as a popup
         L.marker(oneBridge.coordinates, {icon:bridgeIcon}).bindPopup(markerText).addTo(map) // added the bridgeicon image to the map
+        console.log("This is the longest bridge")
     } else {
         let markerText = `<b>${oneBridge.name}</b><br>${oneBridge.span}` // adds the bridge name and span to each icon as a popup
-        L.marker(longestBridge, {icon:secondBridgeIcon}).bindPopup(markerText).addTo(map) // added the bridgeicon image to the map
+        L.marker(oneBridge.coordinates, {icon:secondBridgeIcon}).bindPopup(markerText).addTo(map) // added the bridgeicon image to the map
+        console.log("This is a bridge")
     }
 })
 
